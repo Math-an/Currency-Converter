@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let btn = document.getElementById('btn');
     let input2=document.getElementById('input2')
 
+    
     fetch('https://api.frankfurter.app/currencies')
         .then(res => res.json())
         .then(res => displayDropDown(res))
