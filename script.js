@@ -1,10 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     let select = document.querySelectorAll('.currency');
     let input = document.getElementById('input');
-    let btn = document.getElementById('btn');
-    let input2=document.getElementById('input2')
+    let input2 = document.getElementById('input2');
+    let ex = document.getElementById('exchange');
 
-    
     fetch('https://api.frankfurter.app/currencies')
         .then(res => res.json())
         .then(res => displayDropDown(res))
@@ -18,23 +17,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    btn.addEventListener('click', () => {
+    ex.addEventListener('click', () => {
+        let temp = select[0].value;
+        select[0].value = select[1].value;
+        select[1].value = temp;
+        convert();
+    });
+
+    input.addEventListener('input', convert);
+
+    function convert() {
         let curr1 = select[0].value;
         let curr2 = select[1].value;
         let inputVal = input.value;
-        if (curr1 === curr2) {
-            alert("Choose different currencies")
-        } else {
-            convert(curr1, curr2, inputVal);
+        if(curr1===curr2)
+        {
+            alert("choose different country")
         }
-    });
-
-    function convert(curr1, curr2, inputVal) {
+        else{
         const host = 'api.frankfurter.app';
         fetch(`https://${host}/latest?amount=${inputVal}&from=${curr1}&to=${curr2}`)
             .then(resp => resp.json())
             .then((data) => {
                 input2.value = Object.values(data.rates)[0];
             });
+        }
     }
 });
